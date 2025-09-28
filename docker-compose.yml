@@ -1,0 +1,44 @@
+version: '3'
+services:
+ db:
+  image: mysql:5.7
+  ## choose the database type and version
+  volumes:
+    - db-data:/var/lib/myysql
+  ## map a volume named db-data to a location in the mysql directory
+  restart: always
+  ## set the container to restart always
+  environment:
+    MYSQL_ROOT_PASSWORD: your_root_password
+    MYSQL_DATABASE: wordpress
+    MYSQL_USER: wordpress
+    MYSQL_PASSWORD: wordpress
+    ## set the variables for the sql container
+
+wordpress:
+  depends_on:
+   - db
+   ## set the wordpress to depend on the database
+  image: wordpress
+  ## use the official wordpress image
+  restart: always
+  ## set the container to restart always
+  ports:
+   - "80:80"
+   ## map the part 80 on the host to port 80 on the container
+  volumes:
+  - wp-data:/var/wwww/html
+  ## map the volume named wp-data to a location in the wordpress directory
+  environment:
+    WORDPRESS_DB_HOST: db
+    WORDPRESS_DB_NAME: wordpress
+    WORDPRESS_DB_USER: wordpress
+    WORDPRESS_DB_PASS: wordpress
+  ## set the variables for the wordpress  container
+
+volumes:
+  db-data:
+  wp-data:
+  ## this defines two namaed volumes ... they are used to persist data from the mysql and wordpress containers.
+
+-- INSERT --
